@@ -1,9 +1,13 @@
 <script setup>
-  import Test from "../components/Top.vue"
+  import Header from "../components/Header.vue"
+  import Top from "../components/Top.vue"
+  import Plus from "../components/Plus.vue"
 </script>
 
 <template>
-    <Test />
+    <Header />
+    <Top />
+    <Plus />
 </template>
 
 <style>

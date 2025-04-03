@@ -14,10 +14,10 @@
             Данный сервис предназначен для рассчета стоимости образовательных программ
         </p>
         <div class="d-inline-flex gap-2 mb-5">
-            <button class="btn btn-info btn-lg px-4" type="button">
+            <button class="btn btn-info btn-lg px-4" type="button" onclick="location.href = './indev'">
                 Перейти к вводу данных
             </button>
-            <button class="btn btn-secondary btn-lg px-4" type="button">
+            <button class="btn btn-secondary btn-lg px-4" type="button" onclick="location.href = './indev'">
                 Посмотреть демо
             </button>
         </div>
