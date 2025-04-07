@@ -18,11 +18,10 @@
                 Перейти к вводу данных
             </button>
             <button class="btn btn-secondary btn-lg px-4" type="button">
-                Посмотреть демо
+                Заполнить демо данными
             </button>
         </div>
-    </div>  
-
+    </div>
 </template>
 
 <style>

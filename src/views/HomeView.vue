@@ -1,9 +1,13 @@
 <script setup>
-  import Test from "../components/Top.vue"
+  import Top from "../components/Top.vue"
+  import TableLoad from "../components/TableLoad.vue"
 </script>
 
 <template>
-    <Test />
+    <Top />
+    <div class="container">
+      <TableLoad />
+    </div>
 </template>
 
 <style>
