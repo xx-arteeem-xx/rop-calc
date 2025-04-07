@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <h3 class="text-secondary-emphasis fs-1">Учебная нагрузка</h3>
+    <h3 class="text-secondary-emphasis fs-1" id="Load">Учебная нагрузка</h3>
     <table class="table table-striped table-bordered my-3" style="vertical-align: middle" id="structTable">
         <thead class="">
             <th rowspan="2" style="vertical-align: middle" class="text-center">Вид нагрузки</th>
