@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <h3>Учебная нагрузка</h3>
-    <table class="table table-striped table-bordered" style="vertical-align: middle" id="structTable">
+    <h3 class="text-secondary-emphasis fs-1">Учебная нагрузка</h3>
+    <table class="table table-striped table-bordered my-3" style="vertical-align: middle" id="structTable">
         <thead class="">
             <th rowspan="2" style="vertical-align: middle" class="text-center">Вид нагрузки</th>
             <th colspan="5"  class="text-center">Распределение по курсам</th>
@@ -18,9 +18,7 @@
         </thead>
         <tbody>
             <tr>
-                <td style="width: 15%"><b>Индивидуальная</b><br><span
-                        style="color: darkgray; font-size: 12px; text-align: left">Под индивидуальной нагрузкой
-                        подразумевается ... </span></td>
+                <td style="width: 15%">Индивидуальная</td>
                 <td style="width: 18%"><input type="text" class="form-control" id="LoadIndCourse1" placeholder=""
                         value="22,79"></td>
                 <td style="width: 18%"><input type="text" class="form-control" id="LoadIndCourse2" placeholder=""
