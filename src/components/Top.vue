@@ -7,10 +7,10 @@
         <div class="img mb-3">
             <img src="../assets/logo.png" id="logo">
         </div>
-        <h1 class="text-body-emphasis">
+        <h1 class="display-5 fw-bold">
             Калькулятор РОП
         </h1>
-        <p class="mx-auto fs-5 text-muted">
+        <p class="mx-auto fs-4 text-muted">
             Данный сервис предназначен для рассчета стоимости образовательных программ
         </p>
         <div class="d-inline-flex gap-2 mb-5">
