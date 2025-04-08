@@ -5,7 +5,7 @@
 </script>
 
 <template>
-    <div class="p-4 mb-4 bg-body-tertiary rounded-3">
+    <div class="p-5 my-5 bg-body-tertiary rounded-3">
         <div class="container-fluid py-5">
             <h1 class="display-5 fw-bold">Переходим к рассчетам?</h1>
             <p class="col-md-8 fs-4 text-muted">
