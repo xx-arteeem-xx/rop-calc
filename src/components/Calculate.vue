@@ -7,7 +7,7 @@
 <template>
     <div class="p-5 my-5 bg-body-tertiary rounded-3">
         <div class="container-fluid py-5">
-            <h1 class="display-5 fw-bold">Переходим к рассчетам?</h1>
+            <h1 class="display-5 fw-bold">Переходим к расчетам?</h1>
             <p class="col-md-8 fs-4 text-muted">
                 Убедитесь, что вы ввели все необходимые данные.
             </p>

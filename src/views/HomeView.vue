@@ -17,8 +17,10 @@
         <TableContingent />
         <TableCash />
         <Calculate />
-        <DashboardCards />
-        <DashboardDetails />
+        <div id="results">
+            <DashboardCards />
+            <DashboardDetails />
+        </div>
     </div>
 </template>
 

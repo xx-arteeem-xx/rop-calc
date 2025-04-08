@@ -7,7 +7,7 @@
         <div class="accordion-item">
             <h2 class="accordion-header">
                 <button class="accordion-button collapsed" data-coreui-toggle="collapse" data-coreui-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    Детализация рассчетов
+                    Детализация расчетов
                 </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" data-coreui-parent="#accordion">

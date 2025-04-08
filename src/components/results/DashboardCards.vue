@@ -3,8 +3,8 @@
 </script>
 
 <template>
-    <h3 class="text-secondary fs-1">Итоги рассчетов</h3>
-    <div class="row mb-5" id="Res">
+    <h3 class="text-secondary fs-1">Итоги расчетов</h3>
+    <div class="row mb-5">
         <div class="col-lg-3">
             <Card
                 color="success"
