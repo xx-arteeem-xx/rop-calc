@@ -6,6 +6,7 @@
     import Instructions from "../components/Instructions.vue"
     import Calculate from "../components/Calculate.vue"
     import DashboardCards from "../components/results/DashboardCards.vue"
+    import DashboardDetails from "../components/results/DashboardDetails.vue"
 </script>
 
 <template>
@@ -17,6 +18,7 @@
         <TableCash />
         <Calculate />
         <DashboardCards />
+        <DashboardDetails />
     </div>
 </template>
 
