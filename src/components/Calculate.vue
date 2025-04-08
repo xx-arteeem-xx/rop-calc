@@ -12,7 +12,7 @@
                 Убедитесь, что вы ввели все необходимые данные.
             </p>
             <div class="d-inline-flex gap-2">
-                <button class="btn btn-info btn-lg px-4" type="button">
+                <button class="btn btn-info btn-lg px-4" type="button" onclick="location.href = '/#Res'">
                     Все данные заполнены верно, рассчитать!
                 </button>
                 <button class="btn btn-secondary btn-lg px-4" type="button" onclick="location.href = '/#Load'">

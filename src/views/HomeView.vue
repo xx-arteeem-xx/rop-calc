@@ -5,6 +5,7 @@
     import TableCash from "../components/data/TableCash.vue"
     import Instructions from "../components/Instructions.vue"
     import Calculate from "../components/Calculate.vue"
+    import DashboardCards from "../components/results/DashboardCards.vue"
 </script>
 
 <template>
@@ -15,6 +16,7 @@
         <TableContingent />
         <TableCash />
         <Calculate />
+        <DashboardCards />
     </div>
 </template>
 
