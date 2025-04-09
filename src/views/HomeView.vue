@@ -13,10 +13,12 @@
     <Top />
     <div class="container">
         <Instructions />
-        <TableLoad />
-        <TableContingent />
-        <TableCash />
-        <Calculate />
+        <div id="data">
+            <TableLoad />
+            <TableContingent />
+            <TableCash />
+            <Calculate />
+        </div>
         <div id="results">
             <DashboardCards />
             <DashboardDetails />

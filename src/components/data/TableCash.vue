@@ -1,5 +1,12 @@
 <script>
-
+    export default {
+        data() {
+            return {
+                priceKCP: [144718, 144718, 144718, 144718],
+                priceDOG: [136200, 136200, 135900, 141600]
+            }
+        },
+    }
 </script>
 
 <template>
@@ -17,27 +24,34 @@
         </thead>
         <tbody>
             <tr>
-                <td style="width: 15%">Объем возмещения затрат за бюджетных студентов</td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceKCPCourse1" placeholder=""
-                        value="144718"></td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceKCPCourse2" placeholder=""
-                        value="144718"></td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceKCPCourse3" placeholder=""
-                        value="144718"></td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceKCPCourse4" placeholder=""
-                        value="144718"></td>
+                <td>Объем возмещения затрат за бюджетных студентов</td>
+                <td>
+                    <input type="number" class="form-control" v-model="priceKCP[0]">
+                </td>
+                <td>
+                    <input type="number" class="form-control" v-model="priceKCP[1]">
+                </td>
+                <td>
+                    <input type="number" class="form-control" v-model="priceKCP[2]">
+                </td>
+                <td>
+                    <input type="number" class="form-control" v-model="priceKCP[3]">
+                </td>
             </tr>
             <tr>
-                <td style="width: 15%">Стоимость обучения по договорам об оказании платных образовательных услуг
+                <td>Стоимость обучения по договорам об оказании платных образовательных услуг</td>
+                <td>
+                    <input type="text" class="form-control" v-model="priceDOG[0]">
                 </td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceDOGCourse1" placeholder=""
-                        value="136200"></td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceDOGCourse2" placeholder=""
-                        value="136200"></td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceDOGCourse3" placeholder=""
-                        value="135900"></td>
-                <td style="width: 18%"><input type="text" class="form-control" id="priceDOGCourse4" placeholder=""
-                        value="141600"></td>
+                <td>
+                    <input type="text" class="form-control" v-model="priceDOG[1]">
+                </td>
+                <td>
+                    <input type="text" class="form-control" v-model="priceDOG[2]">
+                </td>
+                <td>
+                    <input type="text" class="form-control" v-model="priceDOG[3]">
+                </td>
             </tr>
         </tbody>
     </table>
