@@ -1,4 +1,14 @@
 <script>
+    function arrSum(arr){
+        let sum = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        };
+        
+        return sum; 
+    };
+
     export default{ 
         data() {
             return {
@@ -6,7 +16,7 @@
                 LoadGroup: [0,0,0,0],
                 LoadSubGroup: [0,0,0,0],
                 LoadFlow: [0,0,0,0],
-                needDemo: 0
+                arrSum
             }
         },
         methods: {
@@ -57,67 +67,39 @@
         <tbody>
             <tr>
                 <td>Индивидуальная</td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadInd[0]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="LoadInd[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="LoadInd[1]">
+                    {{ parseFloat(arrSum(LoadInd)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadInd[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadInd[3]">
-                </td>
-                <td>{{ parseFloat(LoadInd[0] + LoadInd[1] + LoadInd[2] + LoadInd[3]) }}</td>
             </tr>
             <tr>
-                <td style="width: 15%">Групповая</td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadGroup[0]">
+                <td>Групповая</td>
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="LoadGroup[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="LoadGroup[1]">
+                    {{ parseInt(arrSum(LoadGroup)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadGroup[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadGroup[3]">
-                </td>
-                <td>{{ parseInt(LoadGroup[0] + LoadGroup[1] + LoadGroup[2] + LoadGroup[3]) }}</td>
             </tr>
             <tr>
                 <td>По подгруппам</td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadSubGroup[0]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="LoadSubGroup[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="LoadSubGroup[1]">
+                    {{ parseInt(arrSum(LoadSubGroup)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadSubGroup[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadSubGroup[3]">
-                </td>
-                <td>{{ parseInt(LoadSubGroup[0] + LoadSubGroup[1] + LoadSubGroup[2] + LoadSubGroup[3]) }}</td>
             </tr>
             <tr>
                 <td>Поточная</td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadFlow[0]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="LoadFlow[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="LoadFlow[1]">
+                    {{ parseInt(arrSum(LoadFlow)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadFlow[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="LoadFlow[3]">
-                </td>
-                <td>{{ parseInt(LoadFlow[0] + LoadFlow[1] + LoadFlow[2] + LoadFlow[3]) }}</td>
             </tr>
 
         </tbody>

@@ -1,10 +1,21 @@
 <script>
+    function arrSum(arr){
+        let sum = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        };
+        
+        return sum; 
+    };
+
     export default {
         data() {
             return {
                 studentsKCP: [0,0,0,0],
                 studentsDOG: [0,0,0,0],
-                studentsGroup: [0,0,0,0]
+                studentsGroup: [0,0,0,0],
+                arrSum
             }
         },
         methods: {
@@ -37,7 +48,7 @@
         <button class="btn btn-sm btn-danger" @click="deleteDemoData()">Очистить</button>
     </div>
     <table class="table table-striped table-bordered my-3" style="vertical-align: middle" id="structTable">
-        <thead class="">
+        <thead>
             <th rowspan="2" style="vertical-align: middle" class="text-center">Тип финансирования</th>
             <th colspan="5" class="text-center">Распределение по курсам</th>
             <tr>
@@ -51,61 +62,41 @@
         <tbody>
             <tr>
                 <td>Обучающиеся за счет бюджетных ассигнований</td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsKCP[0]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="studentsKCP[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="studentsKCP[1]">
+                    {{ parseInt(arrSum(studentsKCP)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsKCP[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsKCP[3]">
-                </td>
-                <td>{{ parseInt(studentsKCP[0] + studentsKCP[1] + studentsKCP[2] + studentsKCP[3]) }}</td>
             </tr>
             <tr>
                 <td>Обучающиеся по договорам об оказании платных образовательных услуг</td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsDOG[0]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="studentsDOG[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="studentsDOG[1]">
+                    {{ parseInt(arrSum(studentsDOG)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsDOG[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsDOG[3]">
-                </td>
-                <td>{{ parseInt(studentsDOG[0] + studentsDOG[1] + studentsDOG[2] + studentsDOG[3]) }}</td>
             </tr>
             <tr>
                 <td style="width: 15%">Количество академических групп</td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsGroup[0]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="studentsGroup[n-1]">
                 </td>
                 <td>
-                    <input type="number" class="form-control" v-model="studentsGroup[1]">
+                    {{ parseInt(arrSum(studentsGroup)) }}
                 </td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsGroup[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="studentsGroup[3]">
-                </td>
-                <td>{{ parseInt(studentsGroup[0] + studentsGroup[1] + studentsGroup[2] + studentsGroup[3]) }}</td>
+                
             </tr>
             <tr>
                 <td>Средняя численность в группе</td>
-                <td>~ {{ parseInt(studentsDOG[0] / studentsGroup[0]) }}</td>
-                <td>~ {{ parseInt(studentsDOG[1] / studentsGroup[1]) }}</td>
-                <td>~ {{ parseInt(studentsDOG[2] / studentsGroup[2]) }}</td>
-                <td>~ {{ parseInt(studentsDOG[3] / studentsGroup[3]) }}</td>
-                <td>~ {{ parseInt((studentsDOG[0] + studentsDOG[1] + studentsDOG[2] + studentsDOG[3]) / (studentsGroup[0] + studentsGroup[1] + studentsGroup[2] + studentsGroup[3])) }}</td>
+                <td v-for="n in 4">
+                    <td>~ {{ parseInt(studentsDOG[n-1] / studentsGroup[n-1]) }}</td>
+                </td>
+                <td>
+                    {{ parseInt(arrSum(studentsDOG) / arrSum(studentsGroup)) }}
+                </td>
             </tr>
-
         </tbody>
     </table>
     <hr>

@@ -45,32 +45,14 @@
         <tbody>
             <tr>
                 <td>Объем возмещения затрат за бюджетных студентов</td>
-                <td>
-                    <input type="number" class="form-control" v-model="priceKCP[0]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="priceKCP[1]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="priceKCP[2]">
-                </td>
-                <td>
-                    <input type="number" class="form-control" v-model="priceKCP[3]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="priceKCP[n-1]">
                 </td>
             </tr>
             <tr>
                 <td>Стоимость обучения по договорам об оказании платных образовательных услуг</td>
-                <td>
-                    <input type="text" class="form-control" v-model="priceDOG[0]">
-                </td>
-                <td>
-                    <input type="text" class="form-control" v-model="priceDOG[1]">
-                </td>
-                <td>
-                    <input type="text" class="form-control" v-model="priceDOG[2]">
-                </td>
-                <td>
-                    <input type="text" class="form-control" v-model="priceDOG[3]">
+                <td v-for="n in 4">
+                    <input type="number" class="form-control" v-model="priceDOG[n-1]">
                 </td>
             </tr>
         </tbody>

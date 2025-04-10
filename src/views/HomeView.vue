@@ -17,7 +17,7 @@
                 this.$refs.demoRef3.demoData();
                 location.href = "#data"
             }
-        }  
+        }
     }
 </script>
 
