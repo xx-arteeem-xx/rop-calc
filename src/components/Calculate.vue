@@ -1,12 +1,12 @@
 <script>
     export default {
-        data() {
-            return {
-
-            }
-        },
         methods: {
-            
+            handleClick1() {
+                this.$emit('button-clicked1'); // Отправка события 1
+            },
+            handleClick2() {
+                this.$emit('button-clicked2'); // Отправка события 2
+            }
         }
     }
 </script>
@@ -19,10 +19,10 @@
                 Убедитесь, что вы ввели все необходимые данные.
             </p>
             <div class="d-inline-flex gap-2">
-                <button class="btn btn-info btn-lg px-4" type="button" onclick="location.href = '/#results'">
+                <button class="btn btn-info btn-lg px-4" type="button" @click="handleClick1()">
                     Все данные заполнены верно, рассчитать!
                 </button>
-                <button class="btn btn-secondary btn-lg px-4" type="button" onclick="location.href = '/#data'">
+                <button class="btn btn-secondary btn-lg px-4" type="button" @click="handleClick2()">
                     Вернуться к заполнению
                 </button>
             </div>

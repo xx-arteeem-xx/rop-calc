@@ -16,6 +16,14 @@
                 this.$refs.demoRef2.demoData();
                 this.$refs.demoRef3.demoData();
                 location.href = "#data"
+            },
+            triggerShowRes() {
+                document.getElementById("results").classList.remove("d-none");
+                location.href = "#results"
+            },
+            triggerHideRes() {
+                document.getElementById("results").classList.add("d-none");
+                location.href = "#data"
             }
         }
     }
@@ -29,9 +37,9 @@
             <TableLoad ref="demoRef1"/>
             <TableContingent ref="demoRef2"/>
             <TableCash ref="demoRef3"/>
-            <Calculate />
+            <Calculate @button-clicked1="triggerShowRes()" @button-clicked2="triggerHideRes()"/>
         </div>
-        <div id="results">
+        <div id="results" class="d-none">
             <DashboardCards />
             <DashboardDetails />
         </div>

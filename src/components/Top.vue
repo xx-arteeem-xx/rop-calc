@@ -1,10 +1,10 @@
 <script>
     export default {
-    methods: {
-        handleClick() {
-        this.$emit('button-clicked'); // Отправка события
+        methods: {
+            handleClick() {
+                this.$emit('button-clicked'); // Отправка события
+            }
         }
-    }
     }
 </script>
 
