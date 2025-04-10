@@ -5,7 +5,8 @@
                 LoadInd: [0,0,0,0],
                 LoadGroup: [0,0,0,0],
                 LoadSubGroup: [0,0,0,0],
-                LoadFlow: [0,0,0,0]
+                LoadFlow: [0,0,0,0],
+                needDemo: 0
             }
         },
         methods: {

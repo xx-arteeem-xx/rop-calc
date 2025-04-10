@@ -1,5 +1,11 @@
 <script>
-
+    export default {
+    methods: {
+        handleClick() {
+        this.$emit('button-clicked'); // Отправка события
+        }
+    }
+    }
 </script>
 
 <template>
@@ -17,7 +23,7 @@
             <button class="btn btn-info btn-lg px-4" type="button" onclick="location.href = '/#data'">
                 Перейти к вводу данных
             </button>
-            <button class="btn btn-secondary btn-lg px-4" type="button" onclick="location.href = '/#data'">
+            <button class="btn btn-secondary btn-lg px-4" type="button" @click="handleClick()">
                 Заполнить демо данными
             </button>
         </div>
