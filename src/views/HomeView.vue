@@ -14,7 +14,6 @@
             return{
 
             }
-            
         },
         methods: {
             triggerDemo() {
@@ -39,7 +38,6 @@
     <Top 
         @button-clicked="triggerDemo()"/>
     <div class="container">
-        {{ calcData }}
         <Instructions />
         <div id="data">
             <TableLoad 

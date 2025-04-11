@@ -8,6 +8,10 @@
         
         return sum; 
     };
+
+    function spaceDigits(number){
+        return number.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    }
     
     export default {
         props: {
@@ -17,19 +21,29 @@
         },
         data() {
             return {
-                calcStudentsKCP: 0,
-                calcStudentsDOG: 0,
-                arrSum
+                calcStudentsKCP: [0, 0, 0, 0],
+                calcStudentsDOG: [0, 0, 0, 0],
+                calcStudentsKCPSum: 0,
+                calcStudentsDOGSum: 0,
+                arrSum,
+                spaceDigits
             }
         },
         methods: {
             calcAll(){
-                this.calcStudentsKCP = [
-                    this.contingent.studentsKCP[0] * this.cash.priceKCP[0],
-                    this.contingent.studentsKCP[1] * this.cash.priceKCP[1],
-                    this.contingent.studentsKCP[2] * this.cash.priceKCP[2],
-                    this.contingent.studentsKCP[3] * this.cash.priceKCP[3]
-                ];
+                for (let i = 0; i < 4; i++) {
+                    let arrData = this.contingent.studentsKCP[i] * this.cash.priceKCP[i];
+                    this.calcStudentsKCP.push(arrData)
+                };
+
+                this.calcStudentsKCPSum = spaceDigits(arrSum(this.calcStudentsKCP));
+
+                for (let i = 0; i < 4; i++) {
+                    let arrData = this.contingent.studentsDOG[i] * this.cash.priceDOG[i];
+                    this.calcStudentsDOG.push(arrData)
+                };
+
+                this.calcStudentsDOGSum = spaceDigits(arrSum(this.calcStudentsDOG))
             }
         }
     }
@@ -37,17 +51,9 @@
 
 <template>
     <h3 class="text-secondary fs-1">Финансовые показатели образовательной программы</h3>
-    <p class="lead">
-        load: {{ load }} <br>
-        contingent: {{ contingent }} <br>
-        cash: {{ cash }} <br>
-    </p>
     <button class="btn btn-primary" @click="calcAll()">
         Расчет тест
     </button>
-    <p class="lead">
-        Доходы от бюджетных студентов: {{ arrSum(calcStudentsKCP) }} 
-    </p>
     <table class="table table-striped table-bordered my-3" style="vertical-align: middle">
         <thead>
             <tr>
@@ -63,14 +69,15 @@
                 <td rowspan="2" style="width: 5%">Доходы</td>
                 <td style="width: 20%">От бюджетных студентов</td>
                 <td id="L1LStartPoint">
-                    {{ contingent.studentsKCP[0] }} * {{ cash.priceKCP[0] }} + {{ contingent.studentsKCP[1] }} * {{ cash.priceKCP[1] }} + {{ contingent.studentsKCP[2] }} * {{ cash.priceKCP[2] }} + {{ contingent.studentsKCP[3] }} * {{ cash.priceKCP[3] }} = <b>{{ arrSum(calcStudentsKCP) }} ₽</b>
+                    <b>{{ calcStudentsKCPSum }} ₽</b>
                 </td>
                 <td rowspan="2" class="text-success" id="L1RStartPoint"><b>29 622 405 ₽</b></td>
             </tr>
             <tr>
                 <td>От коммерческих студентов</td>
-                <td id="L1LStandartPoint">18 * 136 200 + 65 * 136 200 + 41 * 135 900 + 12 * 141 600 <br>= <b>24 731 204
-                        ₽</b></td>
+                <td id="L1LStandartPoint">
+                    <b>{{ calcStudentsDOGSum }} ₽</b>
+                </td>
             </tr>
 
             <!--Расходы-->

@@ -10,7 +10,7 @@
         },
         data() {
             return {
-                
+
             }
         }
     }
@@ -27,9 +27,9 @@
             <div id="collapseOne" class="accordion-collapse collapse" data-coreui-parent="#accordion">
                 <div class="accordion-body">
                     <Table 
-                        :load
-                        :contingent
-                        :cash />
+                        :load="load"
+                        :contingent="contingent"
+                        :cash="cash" />
                 </div>
             </div>
         </div>
