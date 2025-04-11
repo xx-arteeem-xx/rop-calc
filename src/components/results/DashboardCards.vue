@@ -38,14 +38,8 @@
             printAll() {
                 this.plusAll = this.res.calcStudentsAllSum;
                 this.minusAll = this.res.calcAllCosts;
-                this.diffAll = this.plusAll - parseInt(this.minusAll);
-                if (this.diffAll < 0) {
-                    this.strRes = "Направление убыточно"
-                } else if (this.diffAll == 0) {
-                    this.strRes = "Направление в нулях"
-                } else {
-                    this.strRes = "Направление прибыльно"
-                }
+                this.diffAll = this.res.finRes;
+                this.strRes = this.res.finResStr;
             }
         }
     }
