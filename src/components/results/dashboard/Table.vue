@@ -21,32 +21,132 @@
         },
         data() {
             return {
+                // От бюджетных студентов	
                 calcStudentsKCP: [0, 0, 0, 0],
-                calcStudentsDOG: [0, 0, 0, 0],
                 calcStudentsKCPSum: 0,
+
+                // От коммерческих студентов	
+                calcStudentsDOG: [0, 0, 0, 0],
                 calcStudentsDOGSum: 0,
+
+                // Доходы
                 calcStudentsAllSum: 0,
+
+                // На групповую нагрузку	
+                calcLoadGroup: [0, 0, 0, 0],
+                calcLoadGroupSum: 0,
+                calcLoadGroupCash: 925,
+                calcLoadGroupCashSum: 0,
+
+                // На нагрузку по подгруппам	
+                calcLoadSubGroup: [0, 0, 0, 0],
+                calcLoadSubGroupSum: 0,
+                calcLoadSubGroupCash: 925,
+                calcLoadSubGroupKoef: 2,
+                calcLoadSubGroupCashSum: 0,
+
+                // На поточную нагрузку	
+                calcLoadFlow: [0, 0, 0, 0],
+                calcLoadFlowSum: 0,
+                calcLoadFlowCash: 925,
+                calcLoadFlowKoef: 2,
+                calcLoadFlowCashSum: 0,
+
+                // На индивидуальную нагрузку	
+                calcLoadInd: [0, 0, 0, 0],
+                calcLoadIndSum: 0,
+                calcLoadIndCash: 925,
+                calcLoadIndCashSum: 0,
+
+                // Итого на ППС
+                PPSAll: 0,
+
+                // На АУП
+                AUPAll: 0,
+                AUPKoef: 0.43,
+
+                // На прочие расходы
+                AnotherAll: 0,
+                AnotherKoef: 0.43,
+
+                // Налоги
+                TaxAll: 0,
+                TaxKoef: 0.302,
+
+                // Расходы
+                calcAllCosts: 0,
+
+                // Функции
                 arrSum,
                 spaceDigits
             }
         },
         methods: {
             calcAll(){
+                // От бюджетных студентов	
                 for (let i = 0; i < 4; i++) {
                     let arrData = this.contingent.studentsKCP[i] * this.cash.priceKCP[i];
-                    this.calcStudentsKCP.push(arrData)
+                    this.calcStudentsKCP[i] = arrData
                 };
-
                 this.calcStudentsKCPSum = arrSum(this.calcStudentsKCP);
 
+                // От коммерческих студентов	
                 for (let i = 0; i < 4; i++) {
                     let arrData = this.contingent.studentsDOG[i] * this.cash.priceDOG[i];
-                    this.calcStudentsDOG.push(arrData)
+                    this.calcStudentsDOG[i] = arrData
                 };
-
                 this.calcStudentsDOGSum = arrSum(this.calcStudentsDOG);
 
-                this.calcStudentsAllSum = this.calcStudentsKCPSum + this.calcStudentsDOGSum
+                // Доходы
+                this.calcStudentsAllSum = this.calcStudentsKCPSum + this.calcStudentsDOGSum;
+
+                // На групповую нагрузку
+                for (let i = 0; i < 4; i++) {
+                    let arrData = this.load.LoadGroup[i] * this.contingent.studentsGroup[i];
+                    this.calcLoadGroup[i] = arrData
+                };
+                this.calcLoadGroupSum = arrSum(this.calcLoadGroup);
+                this.calcLoadGroupCashSum = this.calcLoadGroupCash * this.calcLoadGroupSum;
+
+                // На нагрузку по подгруппам
+                for (let i = 0; i < 4; i++) {
+                    let arrData = this.load.LoadSubGroup[i] * this.contingent.studentsGroup[i];
+                    this.calcLoadSubGroup[i] = arrData
+                };
+                this.calcLoadSubGroupSum = arrSum(this.calcLoadSubGroup);
+                this.calcLoadSubGroupCashSum = this.calcLoadSubGroupCash * this.calcLoadSubGroupSum  * this.calcLoadSubGroupKoef;
+
+                // На поточную нагрузку
+                for (let i = 0; i < 4; i++) {
+                    let arrData = this.load.LoadFlow[i] * this.contingent.studentsGroup[i];
+                    this.calcLoadFlow[i] = arrData
+                };
+                this.calcLoadFlowSum = arrSum(this.calcLoadFlow);
+                this.calcLoadFlowCashSum = this.calcLoadFlowCash * this.calcLoadFlowSum  / this.calcLoadFlowKoef;
+
+                // На индивидуальную нагрузку
+                for (let i = 0; i < 4; i++) {
+                    let arrData = this.load.LoadInd[i] * this.contingent.studentsDOG[i];
+                    this.calcLoadInd[i] = arrData
+                };
+                this.calcLoadIndSum = arrSum(this.calcLoadInd);
+                this.calcLoadIndCashSum = this.calcLoadIndCash * this.calcLoadIndSum;
+
+                // Итого на ППС 
+                this.PPSAll = this.calcLoadGroupCashSum + this.calcLoadSubGroupCashSum + this.calcLoadFlowCashSum + this.calcLoadIndCashSum;
+
+                // На АУП	 
+                this.AUPAll = this.PPSAll * this.AUPKoef;
+
+                // На прочие расходы	 
+                this.AnotherAll = this.PPSAll * this.AnotherKoef;
+
+                // Налоги 
+                this.TaxAll = this.PPSAll * this.TaxKoef;
+
+                // Расходы
+                this.calcAllCosts = this.PPSAll + this.AUPAll + this.AnotherAll + this.TaxAll
+
             }
         }
     }
@@ -69,59 +169,79 @@
         <tbody>
             <!--Доходы-->
             <tr>
-                <td rowspan="2" style="width: 5%">Доходы</td>
-                <td style="width: 20%">От бюджетных студентов</td>
-                <td id="L1LStartPoint">
+                <td rowspan="2">Доходы</td>
+                <td>От бюджетных студентов</td>
+                <td>
                     <b>{{ spaceDigits(calcStudentsKCPSum) }} ₽</b>
                 </td>
-                <td rowspan="2" class="text-success" id="L1RStartPoint"><b>{{ spaceDigits(calcStudentsAllSum) }} ₽</b></td>
+                <td rowspan="2" class="text-success">
+                    <b>{{ spaceDigits(calcStudentsAllSum) }} ₽</b>
+                </td>
             </tr>
             <tr>
                 <td>От коммерческих студентов</td>
-                <td id="L1LStandartPoint">
+                <td>
                     <b>{{ spaceDigits(calcStudentsDOGSum) }} ₽</b>
                 </td>
             </tr>
 
             <!--Расходы-->
             <tr>
-                <td rowspan="8" style="">Расходы</td>
-                <td style="width: 12%">На групповую нагрузку</td>
-                <td id="formula_rasv" title="Кол-во часов групповой нагрузки * Стоимость часа преподавателя"
-                    data-toggle="tooltip" data-placement="top">925 ₽/час * (514 * 1 + 519 * 4 + 528 * 4 + 379 * 2) =
-                    <b>5 050 500 ₽ </b></td>
-                <td rowspan="8" id="L1RStartPoint" class="text-danger"><b>29 764 490 ₽ </b></td>
-            </tr>
-            <tr>
-                <td>На поточную нагрузку</td>
-                <td id="L1LStandartPoint">925 ₽/час * (420 * 1 + 360 * 4 + 396 * 4 + 442 * 2) / 2 (коэф. потоков) <br>=
-                    <b>2 001 700 ₽ </b></td>
+                <td rowspan="8">Расходы</td>
+                <td>На групповую нагрузку</td>
+                <td>
+                    {{ calcLoadGroupCash }} ₽/час * {{ spaceDigits(calcLoadGroupSum) }} = 
+                    <b>{{ spaceDigits(calcLoadGroupCashSum) }} ₽ </b>
+                </td>
+                <td rowspan="8" class="text-danger">
+                    <b>{{ spaceDigits(parseInt(calcAllCosts)) }} ₽ </b>
+                </td>
             </tr>
             <tr>
                 <td>На нагрузку по подгруппам</td>
-                <td id="L1LStandartPoint">925 ₽/час * (144 * 1 + 160 * 4 + 72 * 4 + 144 * 2) * 2 (коэф. подгрупп) <br>=
-                    <b>2 516 000 ₽ </b></td>
+                <td>
+                    {{ calcLoadSubGroupCash }} ₽/час * {{ spaceDigits(calcLoadSubGroupSum) }} * {{ calcLoadSubGroupKoef }} (коэф. подгрупп) = 
+                    <b>{{ spaceDigits(calcLoadSubGroupCashSum) }} ₽ </b>
+                </td>
+            </tr>
+            <tr>
+                <td>На поточную нагрузку</td>
+                <td>
+                    {{ calcLoadFlowCash }} ₽/час * {{ spaceDigits(calcLoadFlowSum) }} * {{ calcLoadFlowKoef }} (коэф. подгрупп) = 
+                    <b>{{ spaceDigits(calcLoadFlowCashSum) }} ₽ </b>
+                </td>
             </tr>
             <tr>
                 <td>На индивидуальную нагрузку</td>
-                <td id="L1LStandartPoint"> 925 ₽/час * (18 * 22,79 + 65 * 26,05 + 55 * 27,55 + 21 * 43,84) <br>= <b>4
-                        198 908 ₽ </b> </td>
+                <td>
+                    {{ calcLoadIndCash }} ₽/час * {{ spaceDigits(parseInt(calcLoadIndSum)) }} = 
+                    <b>{{ spaceDigits(parseInt(calcLoadIndCashSum)) }} ₽ </b>
+                </td>
             </tr>
             <tr>
                 <td><b>Итого на ППС</b></td>
-                <td id="L1LStandartPoint"> <b>13 767 108 ₽ </b> </td>
+                <td> <b>{{ spaceDigits(parseInt(PPSAll)) }} ₽ </b> </td>
             </tr>
             <tr>
                 <td>На административно-управленческий персонал</td>
-                <td id="L1LStandartPoint">13 767 108 ₽ * 1,430 = <b>5 919 858 ₽</b></td>
+                <td>
+                    {{ spaceDigits(parseInt(PPSAll)) }} ₽ * {{ spaceDigits(parseFloat(AUPKoef)) }} = 
+                    <b>{{ spaceDigits(parseInt(AUPAll)) }} ₽</b>
+                </td>
             </tr>
             <tr>
                 <td>На прочие расходы</td>
-                <td id="L1LStandartPoint">13 767 108 ₽ * 1,430 = <b>5 919 858 ₽</b></td>
+                <td>
+                    {{ spaceDigits(parseInt(PPSAll)) }} ₽ * {{ spaceDigits(parseFloat(AnotherKoef)) }} = 
+                    <b>{{ spaceDigits(parseInt(AnotherAll)) }} ₽</b>
+                </td>
             </tr>
             <tr>
                 <td>Налоговые обчисления</td>
-                <td id="L1LStandartPoint">13 767 108 ₽ * 1,302 = <b>4 147 666 ₽</b></td>
+                <td>
+                    {{ spaceDigits(parseInt(PPSAll)) }} ₽ * {{ spaceDigits(parseFloat(TaxKoef)) }} = 
+                    <b>{{ spaceDigits(parseInt(TaxAll)) }} ₽</b>
+                </td>
             </tr>
 
             <!--Финансовый результат-->
@@ -134,16 +254,16 @@
             </tr>
             <tr>
                 <td>На одну группу</td>
-                <td id="L1LStandartPoint">(29 622 405 ₽ - 29 764 490 ₽) / 11 групп = <b class="text-danger">- 12 916
+                <td>(29 622 405 ₽ - 29 764 490 ₽) / 11 групп = <b class="text-danger">- 12 916
                         ₽</b></td>
             </tr>
             <tr>
                 <td>Рентабельность</td>
-                <td id="L1LStandartPoint">29 622 405 ₽ / 29 764 490 ₽ = <B class="text-danger">-0,004 %</B></td>
+                <td>29 622 405 ₽ / 29 764 490 ₽ = <B class="text-danger">-0,004 %</B></td>
             </tr>
             <tr>
                 <td>Абсолютный результат</td>
-                <td id="L1LStandartPoint">29 622 405 ₽ - 29 764 490 ₽ = <B class="text-danger"> - 142 762</B></td>
+                <td>29 622 405 ₽ - 29 764 490 ₽ = <B class="text-danger"> - 142 762</B></td>
             </tr>
         </tbody>
     </table>
