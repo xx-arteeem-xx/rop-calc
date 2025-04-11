@@ -68,7 +68,7 @@
             <Card
                 color="warning"
                 header="Разница"
-                :title="spaceDigits(diffAll) + ' ₽'"
+                :title="spaceDigits(parseInt(diffAll)) + ' ₽'"
                 desc="Разница между доходами и расходами" />
         </div>
         <div class="col-lg-3">
