@@ -11,16 +11,41 @@
         return sum; 
     };
 
+    function spaceDigits(number){
+        return number.toString().replace(/(\d)(?=(\d\d\d)+([^\d]|$))/g, '$1 ');
+    }
+
     export default {
         components: { Card },
         props: {
-            load: Object,
-            contingent: Object,
-            cash: Object
+            res: Object
         },
         data() {
             return {
-                arrSum
+                // Результаты
+                plusAll: 0,
+                minusAll: 0,
+                diffAll: 0,
+                strRes: "",
+
+
+                // Функции
+                arrSum,
+                spaceDigits
+            }
+        },
+        methods: {
+            printAll() {
+                this.plusAll = this.res.calcStudentsAllSum;
+                this.minusAll = this.res.calcAllCosts;
+                this.diffAll = this.plusAll - parseInt(this.minusAll);
+                if (this.diffAll < 0) {
+                    this.strRes = "Направление убыточно"
+                } else if (this.diffAll == 0) {
+                    this.strRes = "Направление в нулях"
+                } else {
+                    this.strRes = "Направление прибыльно"
+                }
             }
         }
     }
@@ -35,28 +60,28 @@
             <Card
                 color="success"
                 header="Доход"
-                title="29 622 405 ₽"
+                :title="spaceDigits(plusAll) + ' ₽'"
                 desc="Общие доходы направления" />
         </div>
         <div class="col-lg-3">
             <Card
                 color="danger"
                 header="Расходы"
-                title="29 764 490 ₽"
+                :title="spaceDigits(parseInt(minusAll)) + ' ₽'"
                 desc="Общие расходы направления" />
         </div>
         <div class="col-lg-3">
             <Card
                 color="warning"
                 header="Разница"
-                title="- 142 762 ₽"
+                :title="spaceDigits(diffAll) + ' ₽'"
                 desc="Разница между доходами и расходами" />
         </div>
         <div class="col-lg-3">
             <Card
                 color="info"
                 header="Финансовый результат"
-                title="Направление убыточно"
+                :title="strRes"
                 desc="" />
         </div>
     </div>

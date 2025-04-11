@@ -24,7 +24,10 @@
             },
             triggerShowRes() {
                 document.getElementById("results").classList.remove("d-none");
-                location.href = "#results"
+                location.href = "#results";
+                this.$refs.calcRef2.calcAll();
+                this.$refs.calcRef1.printAll();
+
             },
             triggerHideRes() {
                 document.getElementById("results").classList.add("d-none");
@@ -51,14 +54,14 @@
                 @button-clicked2="triggerHideRes()"/>
         </div>
         <div id="results" class="d-none">
-            <DashboardCards 
-                :load="this.$refs.demoRef1"
-                :contingent="this.$refs.demoRef2"
-                :cash="this.$refs.demoRef3"/>
+            <DashboardCards
+                :res="this.$refs.calcRef2" 
+                ref="calcRef1"/>
             <DashboardDetails 
                 :load="this.$refs.demoRef1"
                 :contingent="this.$refs.demoRef2"
-                :cash="this.$refs.demoRef3"/>
+                :cash="this.$refs.demoRef3"
+                ref="calcRef2"/>
         </div>
     </div>
 </template>
