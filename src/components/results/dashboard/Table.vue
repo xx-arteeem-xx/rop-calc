@@ -25,6 +25,7 @@
                 calcStudentsDOG: [0, 0, 0, 0],
                 calcStudentsKCPSum: 0,
                 calcStudentsDOGSum: 0,
+                calcStudentsAllSum: 0,
                 arrSum,
                 spaceDigits
             }
@@ -36,14 +37,16 @@
                     this.calcStudentsKCP.push(arrData)
                 };
 
-                this.calcStudentsKCPSum = spaceDigits(arrSum(this.calcStudentsKCP));
+                this.calcStudentsKCPSum = arrSum(this.calcStudentsKCP);
 
                 for (let i = 0; i < 4; i++) {
                     let arrData = this.contingent.studentsDOG[i] * this.cash.priceDOG[i];
                     this.calcStudentsDOG.push(arrData)
                 };
 
-                this.calcStudentsDOGSum = spaceDigits(arrSum(this.calcStudentsDOG))
+                this.calcStudentsDOGSum = arrSum(this.calcStudentsDOG);
+
+                this.calcStudentsAllSum = this.calcStudentsKCPSum + this.calcStudentsDOGSum
             }
         }
     }
@@ -69,14 +72,14 @@
                 <td rowspan="2" style="width: 5%">Доходы</td>
                 <td style="width: 20%">От бюджетных студентов</td>
                 <td id="L1LStartPoint">
-                    <b>{{ calcStudentsKCPSum }} ₽</b>
+                    <b>{{ spaceDigits(calcStudentsKCPSum) }} ₽</b>
                 </td>
-                <td rowspan="2" class="text-success" id="L1RStartPoint"><b>29 622 405 ₽</b></td>
+                <td rowspan="2" class="text-success" id="L1RStartPoint"><b>{{ spaceDigits(calcStudentsAllSum) }} ₽</b></td>
             </tr>
             <tr>
                 <td>От коммерческих студентов</td>
                 <td id="L1LStandartPoint">
-                    <b>{{ calcStudentsDOGSum }} ₽</b>
+                    <b>{{ spaceDigits(calcStudentsDOGSum) }} ₽</b>
                 </td>
             </tr>
 
