@@ -1,14 +1,40 @@
-<script setup>
-    import Card from "./dashboard/Card.vue"
+<script>
+    import Card from "./dashboard/Card.vue";
+
+    function arrSum(arr){
+        let sum = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        };
+        
+        return sum; 
+    };
+
+    export default {
+        components: { Card },
+        props: {
+            load: Object,
+            contingent: Object,
+            cash: Object
+        },
+        data() {
+            return {
+                arrSum
+            }
+        }
+    }
 </script>
 
 <template>
-    <h3 class="text-secondary fs-1">Итоги расчетов</h3>
+    <h3 class="text-secondary fs-1">
+        Итоги расчетов <br>
+    </h3>
     <div class="row mb-5">
         <div class="col-lg-3">
             <Card
                 color="success"
-                header="Доходы"
+                header="Доход"
                 title="29 622 405 ₽"
                 desc="Общие доходы направления" />
         </div>

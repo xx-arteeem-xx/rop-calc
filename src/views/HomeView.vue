@@ -10,6 +10,12 @@
 
     export default{
         components: { Top, TableLoad, TableContingent, TableCash, Instructions, Calculate, DashboardCards, DashboardDetails },
+        data(){
+            return{
+
+            }
+            
+        },
         methods: {
             triggerDemo() {
                 this.$refs.demoRef1.demoData(); 
@@ -24,24 +30,37 @@
             triggerHideRes() {
                 document.getElementById("results").classList.add("d-none");
                 location.href = "#data"
-            }
+            }, 
         }
     }
 </script>
 
 <template>
-    <Top @button-clicked="triggerDemo()"/>
+    <Top 
+        @button-clicked="triggerDemo()"/>
     <div class="container">
+        {{ calcData }}
         <Instructions />
         <div id="data">
-            <TableLoad ref="demoRef1"/>
-            <TableContingent ref="demoRef2"/>
-            <TableCash ref="demoRef3"/>
-            <Calculate @button-clicked1="triggerShowRes()" @button-clicked2="triggerHideRes()"/>
+            <TableLoad 
+                ref="demoRef1"/>
+            <TableContingent 
+                ref="demoRef2"/>
+            <TableCash 
+                ref="demoRef3"/>
+            <Calculate 
+                @button-clicked1="triggerShowRes()" 
+                @button-clicked2="triggerHideRes()"/>
         </div>
         <div id="results" class="d-none">
-            <DashboardCards />
-            <DashboardDetails />
+            <DashboardCards 
+                :load="this.$refs.demoRef1"
+                :contingent="this.$refs.demoRef2"
+                :cash="this.$refs.demoRef3"/>
+            <DashboardDetails 
+                :load="this.$refs.demoRef1"
+                :contingent="this.$refs.demoRef2"
+                :cash="this.$refs.demoRef3"/>
         </div>
     </div>
 </template>

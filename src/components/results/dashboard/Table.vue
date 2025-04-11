@@ -1,12 +1,53 @@
 <script>
+    function arrSum(arr){
+        let sum = 0;
 
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        };
+        
+        return sum; 
+    };
+    
+    export default {
+        props: {
+            load: Object,
+            contingent: Object,
+            cash: Object
+        },
+        data() {
+            return {
+                calcStudentsKCP: 0,
+                calcStudentsDOG: 0,
+                arrSum
+            }
+        },
+        methods: {
+            calcAll(){
+                this.calcStudentsKCP = [
+                    this.contingent.studentsKCP[0] * this.cash.priceKCP[0],
+                    this.contingent.studentsKCP[1] * this.cash.priceKCP[1],
+                    this.contingent.studentsKCP[2] * this.cash.priceKCP[2],
+                    this.contingent.studentsKCP[3] * this.cash.priceKCP[3]
+                ];
+            }
+        }
+    }
 </script>
 
 <template>
     <h3 class="text-secondary fs-1">Финансовые показатели образовательной программы</h3>
-    <h4><span class="badge badge-success" id="status" data-toggle="tooltip" data-placement="right"
-            title="Статус определяется ..."></span></h4>
-
+    <p class="lead">
+        load: {{ load }} <br>
+        contingent: {{ contingent }} <br>
+        cash: {{ cash }} <br>
+    </p>
+    <button class="btn btn-primary" @click="calcAll()">
+        Расчет тест
+    </button>
+    <p class="lead">
+        Доходы от бюджетных студентов: {{ arrSum(calcStudentsKCP) }} 
+    </p>
     <table class="table table-striped table-bordered my-3" style="vertical-align: middle">
         <thead>
             <tr>
@@ -21,7 +62,9 @@
             <tr>
                 <td rowspan="2" style="width: 5%">Доходы</td>
                 <td style="width: 20%">От бюджетных студентов</td>
-                <td id="L1LStartPoint">14 * 144 718 + 21 * 144 719 = <b>4 891 201 ₽</b></td>
+                <td id="L1LStartPoint">
+                    {{ contingent.studentsKCP[0] }} * {{ cash.priceKCP[0] }} + {{ contingent.studentsKCP[1] }} * {{ cash.priceKCP[1] }} + {{ contingent.studentsKCP[2] }} * {{ cash.priceKCP[2] }} + {{ contingent.studentsKCP[3] }} * {{ cash.priceKCP[3] }} = <b>{{ arrSum(calcStudentsKCP) }} ₽</b>
+                </td>
                 <td rowspan="2" class="text-success" id="L1RStartPoint"><b>29 622 405 ₽</b></td>
             </tr>
             <tr>

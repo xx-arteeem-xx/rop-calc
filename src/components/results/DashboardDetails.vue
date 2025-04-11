@@ -1,5 +1,19 @@
-<script setup>
-    import Table from "./dashboard/Table.vue"
+<script>
+    import Table from "./dashboard/Table.vue";
+
+    export default {
+        components: { Table },
+        props: {
+            load: Object,
+            contingent: Object,
+            cash: Object
+        },
+        data() {
+            return {
+                
+            }
+        }
+    }
 </script>
 
 <template>
@@ -12,7 +26,10 @@
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse" data-coreui-parent="#accordion">
                 <div class="accordion-body">
-                    <Table />
+                    <Table 
+                        :load
+                        :contingent
+                        :cash />
                 </div>
             </div>
         </div>
