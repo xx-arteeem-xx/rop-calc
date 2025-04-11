@@ -75,6 +75,20 @@
 
                 // Расходы
                 calcAllCosts: 0,
+                
+                // Финрез
+                finRes: 0,
+
+                // На одного студента
+                forOneStudent: 0,
+                studentsSum: 0,
+
+                // На одну группу
+                forOneGroup: 0,
+                groupSum: 0,
+                
+                // Финрез текстом
+                finResStr: "",
 
                 // Функции
                 arrSum,
@@ -145,7 +159,22 @@
                 this.TaxAll = this.PPSAll * this.TaxKoef;
 
                 // Расходы
-                this.calcAllCosts = this.PPSAll + this.AUPAll + this.AnotherAll + this.TaxAll
+                this.calcAllCosts = this.PPSAll + this.AUPAll + this.AnotherAll + this.TaxAll;
+                
+                // Финрез
+                this.finRes = this.calcStudentsAllSum - this.calcAllCosts;
+
+                // На одного студента
+                this.studentsSum = arrSum(this.contingent.studentsDOG) + arrSum(this.contingent.studentsKCP);
+                this.forOneStudent = this.finRes / this.studentsSum;
+
+                // На одну группу
+                this.groupSum = arrSum(this.contingent.studentsGroup);
+                this.forOneGroup = this.finRes / this.groupSum;
+
+                // Финрез текстом
+                this.finResStr = this.finRes > 0 ? "Направление прибыльно" : "Направление убыточно";
+                
 
             }
         }
@@ -252,24 +281,30 @@
 
                             <!--Финансовый результат-->
                             <tr>
-                                <td rowspan="4" style="width: 10%">Финансовый результат</td>
-                                <td style="width: 25%">На одного студента</td>
-                                <td id="L1LStartPoint"> (29 622 405 ₽ - 29 764 490 ₽) / 171 студент= <b class="text-danger">- 830 ₽</b>
+                                <td rowspan="4">Финансовый результат</td>
+                                <td>Абсолютный результат</td>
+                                <td><b :class="(finRes > 0) ? 'text-success' : 'text-danger'"> {{ spaceDigits(parseInt(finRes)) }} ₽</b></td>
+                                <td rowspan="4" class="text-warning">
+                                    <b>{{ finResStr }}</b>
                                 </td>
-                                <td rowspan="4" class="text-warning" id="L1RStartPoint"><b>Направление убыточно</b></td>
+                            </tr>
+                            <tr>
+                                <td>На одного студента</td>
+                                <td>
+                                    {{ spaceDigits(parseInt(finRes)) }} / {{ studentsSum }} = 
+                                    <b :class="(forOneStudent > 0) ? 'text-success' : 'text-danger'"> {{ spaceDigits(parseInt(forOneStudent)) }} ₽</b>
+                                </td>
                             </tr>
                             <tr>
                                 <td>На одну группу</td>
-                                <td>(29 622 405 ₽ - 29 764 490 ₽) / 11 групп = <b class="text-danger">- 12 916
-                                        ₽</b></td>
+                                <td>
+                                    {{ spaceDigits(parseInt(finRes)) }} / {{ groupSum }} = 
+                                    <b :class="(forOneGroup > 0) ? 'text-success' : 'text-danger'"> {{ spaceDigits(parseInt(forOneGroup)) }} ₽</b>
+                                </td>
                             </tr>
                             <tr>
                                 <td>Рентабельность</td>
-                                <td>29 622 405 ₽ / 29 764 490 ₽ = <B class="text-danger">-0,004 %</B></td>
-                            </tr>
-                            <tr>
-                                <td>Абсолютный результат</td>
-                                <td>29 622 405 ₽ - 29 764 490 ₽ = <B class="text-danger"> - 142 762</B></td>
+                                <td>В разработке...</td>
                             </tr>
                         </tbody>
                     </table>
