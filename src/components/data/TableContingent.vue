@@ -91,10 +91,10 @@
             <tr>
                 <td>Средняя численность в группе</td>
                 <td v-for="n in 4">
-                    <td>~ {{ parseInt(studentsDOG[n-1] / studentsGroup[n-1]) }}</td>
+                    <td>~ {{ parseInt(( studentsDOG[n-1] + studentsKCP[n-1] ) / studentsGroup[n-1]) }}</td>
                 </td>
                 <td>
-                    {{ parseInt(arrSum(studentsDOG) / arrSum(studentsGroup)) }}
+                    {{ parseInt(( arrSum(studentsDOG) + arrSum(studentsKCP) ) / arrSum(studentsGroup)) }}
                 </td>
             </tr>
         </tbody>
