@@ -27,7 +27,6 @@
                 location.href = "#results";
                 this.$refs.calcRef2.calcAll();
                 this.$refs.calcRef1.printAll();
-
             },
             triggerHideRes() {
                 document.getElementById("results").classList.add("d-none");

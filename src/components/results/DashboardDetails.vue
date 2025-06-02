@@ -21,73 +21,31 @@
         },
         data() {
             return {
-                // От бюджетных студентов	
-                calcStudentsKCP: [0, 0, 0, 0],
-                calcStudentsKCPSum: 0,
+                result: [
+                    {
+                        "budget": 0,
+                        "commerce": 0,
+                        "sumIncome": 0
+                    },
+                    {
+                        "group": 0,
+                        "flow": 0,
+                        "subgroup": 0,
+                        "ind": 0,
+                        "sumpps": 0,
+                        "aup": 0,
+                        "other": 0,
+                        "tax": 0,
+                        "sumCost": 0
+                    },
+                    {
+                        "finres": 0,
+                        "efficiency": 0,
+                        "oneGroup": 0,
+                        "oneStudent": 0
+                    }
+                ],
 
-                // От коммерческих студентов	
-                calcStudentsDOG: [0, 0, 0, 0],
-                calcStudentsDOGSum: 0,
-
-                // Доходы
-                calcStudentsAllSum: 0,
-
-                // На групповую нагрузку	
-                calcLoadGroup: [0, 0, 0, 0],
-                calcLoadGroupSum: 0,
-                calcLoadGroupCash: 925,
-                calcLoadGroupCashSum: 0,
-
-                // На нагрузку по подгруппам	
-                calcLoadSubGroup: [0, 0, 0, 0],
-                calcLoadSubGroupSum: 0,
-                calcLoadSubGroupCash: 925,
-                calcLoadSubGroupKoef: 2,
-                calcLoadSubGroupCashSum: 0,
-
-                // На поточную нагрузку	
-                calcLoadFlow: [0, 0, 0, 0],
-                calcLoadFlowSum: 0,
-                calcLoadFlowCash: 925,
-                calcLoadFlowKoef: 2,
-                calcLoadFlowCashSum: 0,
-
-                // На индивидуальную нагрузку	
-                calcLoadInd: [0, 0, 0, 0],
-                calcLoadIndSum: 0,
-                calcLoadIndCash: 925,
-                calcLoadIndCashSum: 0,
-
-                // Итого на ППС
-                PPSAll: 0,
-
-                // На АУП
-                AUPAll: 0,
-                AUPKoef: 0.43,
-
-                // На прочие расходы
-                AnotherAll: 0,
-                AnotherKoef: 0.43,
-
-                // Налоги
-                TaxAll: 0,
-                TaxKoef: 0.302,
-
-                // Расходы
-                calcAllCosts: 0,
-                
-                // Финрез
-                finRes: 0,
-
-                // На одного студента
-                forOneStudent: 0,
-                studentsSum: 0,
-
-                // На одну группу
-                forOneGroup: 0,
-                groupSum: 0,
-                
-                // Финрез текстом
                 finResStr: "",
 
                 // Функции
@@ -96,86 +54,65 @@
             }
         },
         methods: {
-            calcAll(){
-                // От бюджетных студентов	
-                for (let i = 0; i < 4; i++) {
-                    let arrData = this.contingent.studentsKCP[i] * this.cash.priceKCP[i];
-                    this.calcStudentsKCP[i] = arrData
+            async calcAll(callbackFn){
+                // || __________________  ЗАДАЕМ ЗАГОЛОВКИ ЗАПРОСА  _______________________ || 
+                let headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                headers.append('Accept', 'application/json');
+                headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+                headers.append('Access-Control-Allow-Credentials', 'true');
+                headers.append('GET', 'POST', 'OPTIONS');
+
+                // || __________________  ПРОВОДИМ ДОПОЛНИТЕЛЬНЫЕ РАСЧЕТЫ  _______________________ || 
+                let students = [];
+
+                for (let i = 0; i < this.contingent.studentsKCP.length; i++) {
+                    students[i] = this.contingent.studentsKCP[i] + this.contingent.studentsDOG[i];
                 };
-                this.calcStudentsKCPSum = arrSum(this.calcStudentsKCP);
 
-                // От коммерческих студентов	
-                for (let i = 0; i < 4; i++) {
-                    let arrData = this.contingent.studentsDOG[i] * this.cash.priceDOG[i];
-                    this.calcStudentsDOG[i] = arrData
+                // || __________________  СОБИРАЕМ JSON  _______________________ || 
+                let data = {
+                    "data": [
+                        {
+                            "cash1": this.cash.priceKCP,
+                            "students1": this.contingent.studentsKCP,
+                            "cash2": this.cash.priceDOG,
+                            "students2": this.contingent.studentsDOG,
+                        },
+                        {
+                            "cash": 925,
+                            "flowKoef": 2,
+                            "subgroupKoef": 2,
+                            "aupKoef": 0.430,
+                            "otherKoef": 0.430,
+                            "taxKoef": 0.302,
+                            "groupCount": this.contingent.studentsGroup,
+                            "students": students,
+                            "group": this.load.LoadGroup,
+                            "flow": this.load.LoadFlow,
+                            "subgroup": this.load.LoadSubGroup,
+                            "ind": this.load.LoadInd,
+                        },
+                        {
+                            "groupCount": arrSum(this.contingent.studentsGroup),
+                            "studentCount": arrSum(this.contingent.studentsKCP) + arrSum(this.contingent.studentsDOG)
+                        }
+                    ]
                 };
-                this.calcStudentsDOGSum = arrSum(this.calcStudentsDOG);
 
-                // Доходы
-                this.calcStudentsAllSum = this.calcStudentsKCPSum + this.calcStudentsDOGSum;
+                // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 
+                let response = await fetch('http://localhost:3000/api/calc/', {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(data)
+                });
 
-                // На групповую нагрузку
-                for (let i = 0; i < 4; i++) {
-                    let arrData = this.load.LoadGroup[i] * this.contingent.studentsGroup[i];
-                    this.calcLoadGroup[i] = arrData
-                };
-                this.calcLoadGroupSum = arrSum(this.calcLoadGroup);
-                this.calcLoadGroupCashSum = this.calcLoadGroupCash * this.calcLoadGroupSum;
+                // || __________________  ПОЛУЧАЕМ ОТВЕТ  _______________________ || 
+                let result = await response.json();
+                this.result = result.result;
 
-                // На нагрузку по подгруппам
-                for (let i = 0; i < 4; i++) {
-                    let arrData = this.load.LoadSubGroup[i] * this.contingent.studentsGroup[i];
-                    this.calcLoadSubGroup[i] = arrData
-                };
-                this.calcLoadSubGroupSum = arrSum(this.calcLoadSubGroup);
-                this.calcLoadSubGroupCashSum = this.calcLoadSubGroupCash * this.calcLoadSubGroupSum  * this.calcLoadSubGroupKoef;
-
-                // На поточную нагрузку
-                for (let i = 0; i < 4; i++) {
-                    let arrData = this.load.LoadFlow[i] * this.contingent.studentsGroup[i];
-                    this.calcLoadFlow[i] = arrData
-                };
-                this.calcLoadFlowSum = arrSum(this.calcLoadFlow);
-                this.calcLoadFlowCashSum = this.calcLoadFlowCash * this.calcLoadFlowSum  / this.calcLoadFlowKoef;
-
-                // На индивидуальную нагрузку
-                for (let i = 0; i < 4; i++) {
-                    let arrData = this.load.LoadInd[i] * this.contingent.studentsDOG[i];
-                    this.calcLoadInd[i] = arrData
-                };
-                this.calcLoadIndSum = arrSum(this.calcLoadInd);
-                this.calcLoadIndCashSum = this.calcLoadIndCash * this.calcLoadIndSum;
-
-                // Итого на ППС 
-                this.PPSAll = this.calcLoadGroupCashSum + this.calcLoadSubGroupCashSum + this.calcLoadFlowCashSum + this.calcLoadIndCashSum;
-
-                // На АУП	 
-                this.AUPAll = this.PPSAll * this.AUPKoef;
-
-                // На прочие расходы	 
-                this.AnotherAll = this.PPSAll * this.AnotherKoef;
-
-                // Налоги 
-                this.TaxAll = this.PPSAll * this.TaxKoef;
-
-                // Расходы
-                this.calcAllCosts = this.PPSAll + this.AUPAll + this.AnotherAll + this.TaxAll;
-                
-                // Финрез
-                this.finRes = this.calcStudentsAllSum - this.calcAllCosts;
-
-                // На одного студента
-                this.studentsSum = arrSum(this.contingent.studentsDOG) + arrSum(this.contingent.studentsKCP);
-                this.forOneStudent = this.finRes / this.studentsSum;
-
-                // На одну группу
-                this.groupSum = arrSum(this.contingent.studentsGroup);
-                this.forOneGroup = this.finRes / this.groupSum;
-
-                // Финрез текстом
-                this.finResStr = this.finRes > 0 ? "Направление прибыльно" : "Направление убыточно";
-                
-
+                // || __________________ ДОПОЛНИТЕЛЬНЫЕ РАСЧЕТЫ  _______________________ ||
+                this.finResStr = this.result[2].finres < 0 ? "Направление убыточно" : "Направление прибыльно"; 
             }
         }
     }
@@ -207,16 +144,16 @@
                                 <td rowspan="2">Доходы</td>
                                 <td>От бюджетных студентов</td>
                                 <td>
-                                    <b>{{ spaceDigits(calcStudentsKCPSum) }} ₽</b>
+                                    <b>{{ spaceDigits(result[0].budget) }} ₽</b>
                                 </td>
                                 <td rowspan="2" class="text-success">
-                                    <b>{{ spaceDigits(calcStudentsAllSum) }} ₽</b>
+                                    <b>{{ spaceDigits(result[0].sumIncome) }} ₽</b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>От коммерческих студентов</td>
                                 <td>
-                                    <b>{{ spaceDigits(calcStudentsDOGSum) }} ₽</b>
+                                    <b>{{ spaceDigits(result[0].commerce) }} ₽</b>
                                 </td>
                             </tr>
 
@@ -225,57 +162,50 @@
                                 <td rowspan="8">Расходы</td>
                                 <td>На групповую нагрузку</td>
                                 <td>
-                                    {{ calcLoadGroupCash }} ₽/час * {{ spaceDigits(calcLoadGroupSum) }} = 
-                                    <b>{{ spaceDigits(calcLoadGroupCashSum) }} ₽ </b>
+                                    <b>{{ spaceDigits(result[1].group) }} ₽ </b>
                                 </td>
                                 <td rowspan="8" class="text-danger">
-                                    <b>{{ spaceDigits(parseInt(calcAllCosts)) }} ₽ </b>
+                                    <b>{{ spaceDigits(parseInt(result[1].sumCost)) }} ₽ </b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>На нагрузку по подгруппам</td>
                                 <td>
-                                    {{ calcLoadSubGroupCash }} ₽/час * {{ spaceDigits(calcLoadSubGroupSum) }} * {{ calcLoadSubGroupKoef }} (коэф. подгрупп) = 
-                                    <b>{{ spaceDigits(calcLoadSubGroupCashSum) }} ₽ </b>
+                                    <b>{{ spaceDigits(result[1].subgroup) }} ₽ </b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>На поточную нагрузку</td>
                                 <td>
-                                    {{ calcLoadFlowCash }} ₽/час * {{ spaceDigits(calcLoadFlowSum) }} * {{ calcLoadFlowKoef }} (коэф. подгрупп) = 
-                                    <b>{{ spaceDigits(calcLoadFlowCashSum) }} ₽ </b>
+                                    <b>{{ spaceDigits(result[1].flow) }} ₽ </b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>На индивидуальную нагрузку</td>
                                 <td>
-                                    {{ calcLoadIndCash }} ₽/час * {{ spaceDigits(parseInt(calcLoadIndSum)) }} = 
-                                    <b>{{ spaceDigits(parseInt(calcLoadIndCashSum)) }} ₽ </b>
+                                    <b>{{ spaceDigits(result[1].ind) }} ₽ </b>
                                 </td>
                             </tr>
                             <tr>
                                 <td><b>Итого на ППС</b></td>
-                                <td> <b>{{ spaceDigits(parseInt(PPSAll)) }} ₽ </b> </td>
+                                <td> <b>{{ spaceDigits(result[1].sumpps) }} ₽ </b> </td>
                             </tr>
                             <tr>
                                 <td>На административно-управленческий персонал</td>
                                 <td>
-                                    {{ spaceDigits(parseInt(PPSAll)) }} ₽ * {{ spaceDigits(parseFloat(AUPKoef)) }} = 
-                                    <b>{{ spaceDigits(parseInt(AUPAll)) }} ₽</b>
+                                    <b>{{ spaceDigits(result[1].aup) }} ₽</b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>На прочие расходы</td>
                                 <td>
-                                    {{ spaceDigits(parseInt(PPSAll)) }} ₽ * {{ spaceDigits(parseFloat(AnotherKoef)) }} = 
-                                    <b>{{ spaceDigits(parseInt(AnotherAll)) }} ₽</b>
+                                    <b>{{ spaceDigits(result[1].other) }} ₽</b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Налоговые обчисления</td>
                                 <td>
-                                    {{ spaceDigits(parseInt(PPSAll)) }} ₽ * {{ spaceDigits(parseFloat(TaxKoef)) }} = 
-                                    <b>{{ spaceDigits(parseInt(TaxAll)) }} ₽</b>
+                                    <b>{{ spaceDigits(result[1].tax) }} ₽</b>
                                 </td>
                             </tr>
 
@@ -283,7 +213,11 @@
                             <tr>
                                 <td rowspan="4">Финансовый результат</td>
                                 <td>Абсолютный результат</td>
-                                <td><b :class="(finRes > 0) ? 'text-success' : 'text-danger'"> {{ spaceDigits(parseInt(finRes)) }} ₽</b></td>
+                                <td>
+                                    <b :class="(result[2].finres > 0) ? 'text-success' : 'text-danger'"> 
+                                        {{ spaceDigits(result[2].finres) }} ₽
+                                    </b>
+                                </td>
                                 <td rowspan="4" class="text-warning">
                                     <b>{{ finResStr }}</b>
                                 </td>
@@ -291,20 +225,26 @@
                             <tr>
                                 <td>На одного студента</td>
                                 <td>
-                                    {{ spaceDigits(parseInt(finRes)) }} / {{ studentsSum }} = 
-                                    <b :class="(forOneStudent > 0) ? 'text-success' : 'text-danger'"> {{ spaceDigits(parseInt(forOneStudent)) }} ₽</b>
+                                    <b :class="(result[2].oneStudent > 0) ? 'text-success' : 'text-danger'"> 
+                                        {{ spaceDigits(result[2].oneStudent) }} ₽
+                                    </b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>На одну группу</td>
                                 <td>
-                                    {{ spaceDigits(parseInt(finRes)) }} / {{ groupSum }} = 
-                                    <b :class="(forOneGroup > 0) ? 'text-success' : 'text-danger'"> {{ spaceDigits(parseInt(forOneGroup)) }} ₽</b>
+                                    <b :class="(result[2].oneGroup > 0) ? 'text-success' : 'text-danger'"> 
+                                        {{ spaceDigits(result[2].oneGroup) }} ₽
+                                    </b>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Рентабельность</td>
-                                <td>В разработке...</td>
+                                <td>
+                                        <b :class="(result[2].efficiency > 0) ? 'text-success' : 'text-danger'"> 
+                                        {{ parseInt(result[2].efficiency * 100) }} %
+                                    </b>
+                                </td>
                             </tr>
                         </tbody>
                     </table>

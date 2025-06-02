@@ -36,10 +36,12 @@
         },
         methods: {
             printAll() {
-                this.plusAll = this.res.calcStudentsAllSum;
-                this.minusAll = this.res.calcAllCosts;
-                this.diffAll = this.res.finRes;
+                this.plusAll = this.res.result[0].sumIncome;
+                this.minusAll = this.res.result[1].sumCost;
+                this.diffAll = this.res.result[2].finres;
                 this.strRes = this.res.finResStr;
+
+                console.log(this.res.result[0]);
             }
         }
     }
