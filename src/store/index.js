@@ -26,12 +26,13 @@ const store = new Vuex.Store({
             let headers = new Headers();
             headers.append('Content-Type', 'application/json');
             headers.append('Accept', 'application/json');
-            headers.append('Access-Control-Allow-Origin', 'http://localhost:3000');
+            headers.append('Access-Control-Allow-Origin', '*');
             headers.append('Access-Control-Allow-Credentials', 'true');
             headers.append('GET', 'POST', 'OPTIONS');
+            let url = `${import.meta.env.VITE_API_URL}/api/calc/`
 
             // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 
-            let response = await fetch('http://localhost:3000/api/calc/', {
+            let response = await fetch(url, {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(data)
