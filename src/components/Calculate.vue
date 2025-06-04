@@ -1,11 +1,68 @@
 <script>
+    function arrSum(arr){
+        let sum = 0;
+
+        for (let i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        };
+        
+        return sum; 
+    };
+
     export default {
+        props: {
+            load: Object,
+            contingent: Object,
+            cash: Object
+        },
+        data() {
+            return {
+
+                // Функции
+                arrSum
+            }
+        },
         methods: {
-            handleClick1() {
-                this.$emit('button-clicked1'); // Отправка события 1
-            },
-            handleClick2() {
-                this.$emit('button-clicked2'); // Отправка события 2
+            calcAll(){
+                // || __________________  ПРОВОДИМ ДОПОЛНИТЕЛЬНЫЕ РАСЧЕТЫ  _______________________ || 
+                let students = [];
+
+                for (let i = 0; i < this.contingent.studentsKCP.length; i++) {
+                    students[i] = this.contingent.studentsKCP[i] + this.contingent.studentsDOG[i];
+                };
+
+                // || __________________  СОБИРАЕМ JSON  _______________________ || 
+                let data = {
+                    "data": [
+                        {
+                            "cash1": this.cash.priceKCP,
+                            "students1": this.contingent.studentsKCP,
+                            "cash2": this.cash.priceDOG,
+                            "students2": this.contingent.studentsDOG,
+                        },
+                        {
+                            "cash": 925,
+                            "flowKoef": 2,
+                            "subgroupKoef": 2,
+                            "aupKoef": 0.430,
+                            "otherKoef": 0.430,
+                            "taxKoef": 0.302,
+                            "groupCount": this.contingent.studentsGroup,
+                            "students": students,
+                            "group": this.load.LoadGroup,
+                            "flow": this.load.LoadFlow,
+                            "subgroup": this.load.LoadSubGroup,
+                            "ind": this.load.LoadInd,
+                        },
+                        {
+                            "groupCount": arrSum(this.contingent.studentsGroup),
+                            "studentCount": arrSum(this.contingent.studentsKCP) + arrSum(this.contingent.studentsDOG)
+                        }
+                    ]
+                };
+
+                // || __________________ ПОЛУЧАЕМ ДАННЫЕ С СЕРВЕРА  _______________________ ||
+                this.$store.dispatch('getResult', data);
             }
         }
     }
@@ -19,10 +76,10 @@
                 Убедитесь, что вы ввели все необходимые данные.
             </p>
             <div class="d-inline-flex gap-2">
-                <button class="btn btn-info btn-lg px-4" type="button" @click="handleClick1()">
+                <button class="btn btn-info btn-lg px-4" type="button" @click="calcAll()">
                     Все данные заполнены верно, рассчитать!
                 </button>
-                <button class="btn btn-secondary btn-lg px-4" type="button" @click="handleClick2()">
+                <button class="btn btn-secondary btn-lg px-4" type="button">
                     Вернуться к заполнению
                 </button>
             </div>

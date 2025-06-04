@@ -21,17 +21,7 @@
                 this.$refs.demoRef2.demoData();
                 this.$refs.demoRef3.demoData();
                 location.href = "#data"
-            },
-            triggerShowRes() {
-                document.getElementById("results").classList.remove("d-none");
-                location.href = "#results";
-                this.$refs.calcRef2.calcAll();
-                this.$refs.calcRef1.printAll();
-            },
-            triggerHideRes() {
-                document.getElementById("results").classList.add("d-none");
-                location.href = "#data"
-            }, 
+            }
         }
     }
 </script>
@@ -48,18 +38,15 @@
                 ref="demoRef2"/>
             <TableCash 
                 ref="demoRef3"/>
-            <Calculate 
-                @button-clicked1="triggerShowRes()" 
-                @button-clicked2="triggerHideRes()"/>
-        </div>
-        <div id="results" class="d-none">
-            <DashboardCards
-                :res="this.$refs.calcRef2" 
-                ref="calcRef1"/>
-            <DashboardDetails 
+            <Calculate
                 :load="this.$refs.demoRef1"
                 :contingent="this.$refs.demoRef2"
-                :cash="this.$refs.demoRef3"
+                :cash="this.$refs.demoRef3" />
+        </div>
+        <div id="results">
+            <DashboardCards
+                ref="calcRef1"/>
+            <DashboardDetails 
                 ref="calcRef2"/>
         </div>
     </div>
