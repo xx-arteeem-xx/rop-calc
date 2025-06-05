@@ -43,6 +43,10 @@ const store = new Vuex.Store({
 
             // || __________________  СОХРАНЯЕМ ОТВЕТ  _______________________ ||
             context.commit('setResult', result);
+        }, 
+        clearResult: (context, payload) => {
+            let result = null;
+            context.commit('setResult', result)
         }
     },
 });

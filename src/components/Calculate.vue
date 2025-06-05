@@ -63,6 +63,15 @@
 
                 // || __________________ ПОЛУЧАЕМ ДАННЫЕ С СЕРВЕРА  _______________________ ||
                 this.$store.dispatch('getResult', data);
+
+                // || __________________ ПЕРЕХОДИМ НА БЛОК С РЕЗУЛЬТАТАМИ  _______________________ ||
+                location.href = "#results";
+            },
+            clearCalc(){
+                // || __________________ ОЧИЩАЕМ РЕЗУЛЬТАТЫ  _______________________ ||
+                this.$store.dispatch('clearResult');
+                // || __________________ ПЕРЕХОДИМ НА БЛОК С ДАННЫМИ  _______________________ ||
+                location.href = "#data";
             }
         }
     }
@@ -79,7 +88,7 @@
                 <button class="btn btn-info btn-lg px-4" type="button" @click="calcAll()">
                     Все данные заполнены верно, рассчитать!
                 </button>
-                <button class="btn btn-secondary btn-lg px-4" type="button">
+                <button class="btn btn-secondary btn-lg px-4" type="button" @click="clearCalc()">
                     Вернуться к заполнению
                 </button>
             </div>
