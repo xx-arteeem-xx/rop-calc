@@ -4,7 +4,13 @@
             handleClick() {
                 this.$emit('button-clicked'); // Отправка события
             }
-        }
+        },
+        mounted() {
+            const api_token_name = document.cookie.split("=")[0];
+            if (api_token_name !== "api_token") {
+                location.href = "./login"
+            }
+        },
     }
 </script>
 

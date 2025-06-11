@@ -2,24 +2,56 @@
     export default {
         data(){
             return {
-                loginUser: "",
-                loginTest: "aaf",
-                passUser: "",
-                passTest: "123",
-                error: ""
+                username: "",
+                password: "",
+                error: "", 
             }
         },
         methods: {
-            auth(){
-                if ((this.loginUser == this.loginTest) && (this.passUser == this.passTest)) {
-                    location.href = "./"
-                } else if ((this.loginUser == "") || (this.passUser == "")) {
-                    this.error = "Все поля должны быть заполнены"
-                } else {
-                    this.error = "Неверное имя пользователя или пароль"
+            async auth(){
+                const data = {
+                    "username": this.username,
+                    "password": this.password,
+                    
                 }
+                // || __________________  ЗАДАЕМ ЗАГОЛОВКИ ЗАПРОСА  _______________________ || 
+                const headers = new Headers();
+                headers.append('Content-Type', 'application/json');
+                headers.append('Accept', 'application/json');
+                headers.append('Access-Control-Allow-Origin', '*');
+                headers.append('Access-Control-Allow-Credentials', 'true');
+                headers.append('GET', 'POST', 'OPTIONS');
+                const url = `${import.meta.env.VITE_API_URL_AUTH}/api/auth/login/`
+
+                // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: headers,
+                    body: JSON.stringify(data)
+                });
+
+                // || __________________  ПОЛУЧАЕМ ОТВЕТ  _______________________ || 
+                const result = await response.json();
+
+                // || __________________  ОБРАБАТЫВАЕМ ОТВЕТ  _______________________ || 
+                if (result.error) {
+                    this.error = result.error;
+                } else if (result.token) {
+                    document.cookie = `api_token=${result.token}`;
+                    this.error = "";
+                    location.href = "./"
+                } else {
+                    this.error = "Internal server error!"
+                };
             }
-        }
+        }, 
+        mounted() {
+            const api_token_name = document.cookie.split("=")[0];
+            if (api_token_name === "api_token") {
+                const api_token = document.cookie.split("=")[1];
+                location.href = "./"
+            }
+        },
     }
 </script>
 
@@ -38,13 +70,13 @@
                         <span class="input-group-text">
                             <i class="fa fa-user" aria-hidden="true"></i>
                         </span>
-                        <input type="text" class="form-control" v-model="loginUser" placeholder="Имя пользователя">
+                        <input type="text" class="form-control" v-model="username" placeholder="Имя пользователя">
                     </div>
                     <div class="input-group mb-3">
                         <span class="input-group-text">
                             <i class="fa fa-key" aria-hidden="true"></i>
                         </span>
-                        <input type="password" class="form-control" v-model="passUser" placeholder="Пароль">
+                        <input type="password" class="form-control" v-model="password" placeholder="Пароль">
                     </div>
                     <button class="btn btn-info" @click="auth">
                         Войти
