@@ -2,7 +2,7 @@
     export default {
         methods: {
             handleClick() {
-                this.$emit('button-clicked'); // Отправка события
+                this.$emit('button-clicked');
             }
         },
         mounted() {

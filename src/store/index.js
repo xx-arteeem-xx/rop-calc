@@ -29,6 +29,7 @@ const store = new Vuex.Store({
             headers.append('Access-Control-Allow-Origin', '*');
             headers.append('Access-Control-Allow-Credentials', 'true');
             headers.append('GET', 'POST', 'OPTIONS');
+            headers.append('Authorization', `Bearer ${document.cookie.split("=")[1]}`)
             let url = `${import.meta.env.VITE_API_URL}/api/calc/`
 
             // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 

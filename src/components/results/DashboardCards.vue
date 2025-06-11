@@ -34,6 +34,9 @@
 </script>
 
 <template>
+    <div  class="alert alert-danger" role="alert" v-if="resultNew && resultNew.error">
+        {{ resultNew.error }}
+    </div>
     <div v-if="resultNew && resultNew.result">
         <h3 class="text-secondary fs-1">
             Итоги расчетов <br>
