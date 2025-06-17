@@ -3,6 +3,10 @@
         methods: {
             handleClick() {
                 this.$emit('button-clicked');
+            },
+            logout(){
+                document.cookie = 'api_token=; Max-Age=-1;';
+                location.href = "./login";
             }
         },
         mounted() {
@@ -31,6 +35,9 @@
             </button>
             <button class="btn btn-secondary btn-lg px-4" type="button" @click="handleClick()">
                 Заполнить демо данными
+            </button>
+            <button class="btn btn-warning btn-lg px-4" type="button" @click="logout()">
+                Выйти
             </button>
         </div>
     </div>
