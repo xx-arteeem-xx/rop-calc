@@ -7,12 +7,39 @@
             logout(){
                 document.cookie = 'api_token=; Max-Age=-1;';
                 location.href = "./login";
+            }, 
+            async authCheck() {
+                const headers = new Headers();
+                headers.append('Access-Control-Allow-Origin', '*');
+                headers.append('Access-Control-Allow-Credentials', 'true');
+                headers.append('GET', 'POST', 'OPTIONS');
+                headers.append('Authorization', `Bearer ${document.cookie.split("=")[1]}`);
+                const url = `${import.meta.env.VITE_API_URL_AUTH}/api/auth/`;
+
+                // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: headers
+                });
+
+                // || __________________  ПОЛУЧАЕМ ОТВЕТ  _______________________ || 
+                const result = await response.json();
+                return result;
             }
         },
-        mounted() {
-            const api_token_name = document.cookie.split("=")[0];
-            if (api_token_name !== "api_token") {
-                location.href = "./login"
+        async mounted() {
+            try {
+                const api_token_name = document.cookie.split("=")[0];
+                if (api_token_name !== "api_token") {
+                    location.href = "./login"
+                } else {
+                    const result = await this.authCheck();
+                    if (result.error) {
+                        this.logout();
+                    };
+                }
+            } catch (error) {
+                this.logout()
             }
         },
     }

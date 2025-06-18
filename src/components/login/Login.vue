@@ -9,46 +9,49 @@
         },
         methods: {
             async auth(){
-                const data = {
-                    "username": this.username,
-                    "password": this.password,
-                    
+                try {
+                    const data = {
+                        "username": this.username,
+                        "password": this.password,
+                        
+                    }
+                    // || __________________  ЗАДАЕМ ЗАГОЛОВКИ ЗАПРОСА  _______________________ || 
+                    const headers = new Headers();
+                    headers.append('Content-Type', 'application/json');
+                    headers.append('Accept', 'application/json');
+                    headers.append('Access-Control-Allow-Origin', '*');
+                    headers.append('Access-Control-Allow-Credentials', 'true');
+                    headers.append('GET', 'POST', 'OPTIONS');
+                    const url = `${import.meta.env.VITE_API_URL_AUTH}/api/auth/login/`
+
+                    // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(data)
+                    });
+
+                    // || __________________  ПОЛУЧАЕМ ОТВЕТ  _______________________ || 
+                    const result = await response.json();
+
+                    // || __________________  ОБРАБАТЫВАЕМ ОТВЕТ  _______________________ || 
+                    if (result.error) {
+                        this.error = result.error;
+                    } else if (result.token) {
+                        document.cookie = `api_token=${result.token}`;
+                        this.error = "";
+                        location.href = "./"
+                    } else {
+                        this.error = "Internal server error!"
+                    };
+                } catch (error) {
+                    this.error = "Internal server error!";
                 }
-                // || __________________  ЗАДАЕМ ЗАГОЛОВКИ ЗАПРОСА  _______________________ || 
-                const headers = new Headers();
-                headers.append('Content-Type', 'application/json');
-                headers.append('Accept', 'application/json');
-                headers.append('Access-Control-Allow-Origin', '*');
-                headers.append('Access-Control-Allow-Credentials', 'true');
-                headers.append('GET', 'POST', 'OPTIONS');
-                const url = `${import.meta.env.VITE_API_URL_AUTH}/api/auth/login/`
-
-                // || __________________  ОТПРАВЛЯЕМ ЗАПРОС  _______________________ || 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: headers,
-                    body: JSON.stringify(data)
-                });
-
-                // || __________________  ПОЛУЧАЕМ ОТВЕТ  _______________________ || 
-                const result = await response.json();
-
-                // || __________________  ОБРАБАТЫВАЕМ ОТВЕТ  _______________________ || 
-                if (result.error) {
-                    this.error = result.error;
-                } else if (result.token) {
-                    document.cookie = `api_token=${result.token}`;
-                    this.error = "";
-                    location.href = "./"
-                } else {
-                    this.error = "Internal server error!"
-                };
             }
         }, 
         mounted() {
             const api_token_name = document.cookie.split("=")[0];
             if (api_token_name === "api_token") {
-                const api_token = document.cookie.split("=")[1];
                 location.href = "./"
             }
         },
