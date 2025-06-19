@@ -65,7 +65,9 @@
                 this.$store.dispatch('getResult', data);
 
                 // || __________________ ПЕРЕХОДИМ НА БЛОК С РЕЗУЛЬТАТАМИ  _______________________ ||
-                location.href = "#results";
+                setTimeout(() => {
+                    location.href = "#results";
+                }, 500)
             },
             clearCalc(){
                 // || __________________ ОЧИЩАЕМ РЕЗУЛЬТАТЫ  _______________________ ||
